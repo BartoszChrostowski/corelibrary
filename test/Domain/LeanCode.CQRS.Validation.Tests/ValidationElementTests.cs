@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using LeanCode.Pipelines;
 using NSubstitute;
 using Xunit;
 
@@ -16,7 +15,7 @@ namespace LeanCode.CQRS.Validation.Tests
             validator = Substitute.For<ICommandValidatorWrapper>();
 
             resolver.FindCommandValidator(typeof(Command)).Returns(validator);
-            validator.ValidateAsync(default, default).ReturnsForAnyArgs(new ValidationResult(new ValidationError[0]));
+            validator.ValidateAsync(default!, default!).ReturnsForAnyArgs(new ValidationResult(new ValidationError[0]));
         }
 
         [Fact]
@@ -39,24 +38,12 @@ namespace LeanCode.CQRS.Validation.Tests
         [Fact]
         public async Task Passes_the_context_and_command_to_the_validator()
         {
-            object actualContext = null;
-            ICommand actualCommand = null;
-
-            validator
-                .WhenForAnyArgs(e => e.ValidateAsync(default, default))
-                .Do(c =>
-                {
-                    actualContext = c.Arg<object>();
-                    actualCommand = c.Arg<ICommand>();
-                });
-
             var cmd = new Command();
             var ctx = new AppContext();
 
             await ExecuteAsync(ctx, cmd, CommandResult.Success);
 
-            Assert.Equal(ctx, actualContext);
-            Assert.Equal(cmd, actualCommand);
+            _ = validator.Received(1).ValidateAsync(ctx, cmd);
         }
 
         [Fact]
@@ -78,8 +65,9 @@ namespace LeanCode.CQRS.Validation.Tests
 
             var res = await ExecuteAsync();
 
-            Assert.False(res.Result.WasSuccessful);
-            var e = Assert.Single(res.Result.ValidationErrors);
+            Assert.NotNull(res.Result);
+            Assert.False(res.Result!.WasSuccessful);
+            var e = Assert.Single(res.Result!.ValidationErrors);
             Assert.Equal(e, err1);
         }
 
@@ -100,12 +88,12 @@ namespace LeanCode.CQRS.Validation.Tests
 
         private void WithoutValidator()
         {
-            resolver.FindCommandValidator(default).ReturnsForAnyArgs((ICommandValidatorWrapper)null);
+            resolver.FindCommandValidator(default!).ReturnsForAnyArgs((ICommandValidatorWrapper?)null);
         }
 
         private void InvalidCommand(params ValidationError[] errors)
         {
-            validator.ValidateAsync(default, default).ReturnsForAnyArgs(new ValidationResult(errors));
+            validator.ValidateAsync(default!, default!).ReturnsForAnyArgs(new ValidationResult(errors));
         }
 
         private Task<ExecutionResult> ExecuteAsync() => ExecuteAsync(CommandResult.Success);
@@ -136,17 +124,10 @@ namespace LeanCode.CQRS.Validation.Tests
         {
             public bool NextCalled { get; set; }
 
-            public AppContext Context { get; set; }
-            public ICommand Command { get; set; }
+            public AppContext? Context { get; set; }
+            public ICommand? Command { get; set; }
 
-            public CommandResult Result { get; set; }
+            public CommandResult? Result { get; set; }
         }
     }
-
-    public class AppContext : IPipelineContext
-    {
-        public IPipelineScope Scope { get; set; }
-    }
-
-    public class Command : ICommand { }
 }
