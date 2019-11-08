@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
-using Element = LeanCode.Pipelines.IPipelineElement<LeanCode.Pipelines.PipelineContext, int, int>;
-using Executor = LeanCode.Pipelines.PipelineExecutor<LeanCode.Pipelines.PipelineContext, int, int>;
-using Finalizer = LeanCode.Pipelines.IPipelineFinalizer<LeanCode.Pipelines.PipelineContext, int, int>;
-using Next = System.Func<LeanCode.Pipelines.PipelineContext, int, System.Threading.Tasks.Task<int>>;
+using Element = LeanCode.Pipelines.IPipelineElement<LeanCode.Pipelines.Tests.PipelineContext, int, int>;
+using Executor = LeanCode.Pipelines.PipelineExecutor<LeanCode.Pipelines.Tests.PipelineContext, int, int>;
+using Finalizer = LeanCode.Pipelines.IPipelineFinalizer<LeanCode.Pipelines.Tests.PipelineContext, int, int>;
+using Next = System.Func<LeanCode.Pipelines.Tests.PipelineContext, int, System.Threading.Tasks.Task<int>>;
 
 namespace LeanCode.Pipelines.Tests
 {
