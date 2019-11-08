@@ -36,6 +36,9 @@ namespace LeanCode.CQRS.Validation
                 }
                 catch (Exception ex) when (translator.TryTranslate(ex) is ValidationError err)
                 {
+                    logger.Information(
+                        "Command {@Command} failed execution with exception that has been translated to {@Error}",
+                        commandType, err);
                     return CommandResult.NotValid(new ValidationResult(new[] { err }));
                 }
             }

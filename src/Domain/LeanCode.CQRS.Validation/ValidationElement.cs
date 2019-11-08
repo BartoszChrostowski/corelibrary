@@ -28,17 +28,19 @@ namespace LeanCode.CQRS.Validation
             {
                 return await next(appContext, payload);
             }
-
-            var result = await validator.ValidateAsync(appContext, payload);
-
-            if (!result.IsValid)
+            else
             {
-                logger.Information("Command {@Command} is not valid with result {@Result}", payload, result);
+                var result = await validator.ValidateAsync(appContext, payload);
 
-                return CommandResult.NotValid(result);
+                if (!result.IsValid)
+                {
+                    logger.Information("Command {@Command} failed validation with {@Result}", payload, result);
+
+                    return CommandResult.NotValid(result);
+                }
+
+                return await next(appContext, payload);
             }
-
-            return await next(appContext, payload);
         }
     }
 
