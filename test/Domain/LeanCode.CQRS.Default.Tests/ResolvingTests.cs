@@ -44,7 +44,7 @@ namespace LeanCode.CQRS.Default.Tests
         [Fact]
         public void Resolves_query_handler()
         {
-            var handler = container.Resolve<IQueryHandler<AppContext, Query, Query>>();
+            var handler = container.Resolve<IQueryHandler<AppContext, Query, Result>>();
 
             Assert.IsType<QueryHandler>(handler);
         }
@@ -55,7 +55,7 @@ namespace LeanCode.CQRS.Default.Tests
             // Adapters come into play here, so just run it
             var validator = container.Resolve<ICommandValidator<AppContext, Command>>();
 
-            var result = await validator.ValidateAsync(new AppContext(), new Command { Fail = true });
+            var result = await validator.ValidateAsync(new AppContext(), new Command { FailValidation = true });
 
             var err = Assert.Single(result.Errors);
             Assert.Equal(1, err.ErrorCode);
