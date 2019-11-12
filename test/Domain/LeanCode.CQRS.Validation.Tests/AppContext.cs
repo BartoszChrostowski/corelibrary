@@ -1,9 +1,15 @@
+using System;
 using LeanCode.Pipelines;
 
 namespace LeanCode.CQRS.Validation.Tests
 {
     public class AppContext : IPipelineContext
     {
-        public IPipelineScope? Scope { get; set; }
+        private IPipelineScope? scope;
+        public IPipelineScope Scope
+        {
+            get => scope ?? throw new NullReferenceException();
+            set => scope = value;
+        }
     }
 }

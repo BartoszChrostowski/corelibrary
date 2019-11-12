@@ -52,7 +52,7 @@ namespace LeanCode.Pipelines
 
         private static Func<TContext, TInput, Task<TOutput>> BuildNext(Type finalType)
         {
-            return (ctx, input) => ctx.Scope!
+            return (ctx, input) => ctx.Scope
                 .ResolveFinalizer<TContext, TInput, TOutput>(finalType)
                 .ExecuteAsync(ctx, input);
         }
@@ -61,7 +61,7 @@ namespace LeanCode.Pipelines
             Type pipelineType,
             Func<TContext, TInput, Task<TOutput>> next)
         {
-            return (ctx, input) => ctx.Scope!
+            return (ctx, input) => ctx.Scope
                 .ResolveElement<TContext, TInput, TOutput>(pipelineType)
                 .ExecuteAsync(ctx, input, next);
         }

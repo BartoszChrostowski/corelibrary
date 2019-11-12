@@ -19,7 +19,7 @@ namespace LeanCode.Example
         List<(IDomainEvent Event, Type Handler)> IEventsExecutorContext.ExecutedHandlers { get; set; } = new List<(IDomainEvent Event, Type Handler)>();
         List<(IDomainEvent Event, Type Handler)> IEventsExecutorContext.FailedHandlers { get; set; } = new List<(IDomainEvent Event, Type Handler)>();
 
-        IPipelineScope? IPipelineContext.Scope
+        IPipelineScope IPipelineContext.Scope
         {
             get => scope ?? throw new NullReferenceException();
             set => scope = value;
