@@ -44,4 +44,14 @@ namespace LeanCode.CQRS.Validation
             }
         }
     }
+
+    public static partial class PipelineBuilderExtensions
+    {
+        public static PipelineBuilder<TAppContext, ICommand, CommandResult> TranslateExceptions<TAppContext>(
+            this PipelineBuilder<TAppContext, ICommand, CommandResult> builder)
+            where TAppContext : IPipelineContext
+        {
+            return builder.Use<ExceptionTranslatorElement<TAppContext>>();
+        }
+    }
 }

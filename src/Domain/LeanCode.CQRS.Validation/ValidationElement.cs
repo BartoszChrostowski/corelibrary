@@ -44,7 +44,7 @@ namespace LeanCode.CQRS.Validation
         }
     }
 
-    public static class PipelineBuilderExtensions
+    public static partial class PipelineBuilderExtensions
     {
         public static PipelineBuilder<TAppContext, ICommand, CommandResult> Validate<TAppContext>(
             this PipelineBuilder<TAppContext, ICommand, CommandResult> builder)

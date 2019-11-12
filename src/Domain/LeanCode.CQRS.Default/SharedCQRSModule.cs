@@ -21,6 +21,7 @@ namespace LeanCode.CQRS.Default
 
             builder.RegisterGeneric(typeof(CQRSSecurityElement<,,>)).AsSelf();
             builder.RegisterGeneric(typeof(ValidationElement<>)).AsSelf();
+            builder.RegisterGeneric(typeof(ExceptionTranslatorElement<>)).AsSelf();
             builder.RegisterGeneric(typeof(CacheElement<>)).AsSelf();
             builder.RegisterGeneric(typeof(CommandFinalizer<>)).AsSelf();
             builder.RegisterGeneric(typeof(QueryFinalizer<>)).AsSelf();
