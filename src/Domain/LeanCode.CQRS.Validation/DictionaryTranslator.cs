@@ -35,7 +35,7 @@ namespace LeanCode.CQRS.Validation
             }
         }
 
-        protected struct ErrorItem
+        protected readonly struct ErrorItem
         {
             public string Message { get; }
             public int ErrorCode { get; }
@@ -49,8 +49,8 @@ namespace LeanCode.CQRS.Validation
             public override bool Equals(object? obj)
             {
                 return obj is DictionaryTranslator<TAppContext, TCommand>.ErrorItem item &&
-                       Message == item.Message &&
-                       ErrorCode == item.ErrorCode;
+                    Message == item.Message &&
+                    ErrorCode == item.ErrorCode;
             }
 
             public override int GetHashCode()
