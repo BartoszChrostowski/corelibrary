@@ -17,6 +17,7 @@ namespace LeanCode.CQRS.Default.Tests.Types
 
     [AuthorizeWhen(typeof(IAuthorizer))]
     public class SecuredQuery : IQuery<Result>, IAuthorizerPayload { }
+
     [QueryCache(1)]
     public class CachedQuery : IQuery<Result> { }
 

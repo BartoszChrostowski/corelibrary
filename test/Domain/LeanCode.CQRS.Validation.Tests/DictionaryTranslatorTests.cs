@@ -7,13 +7,13 @@ namespace LeanCode.CQRS.Validation.Tests
     public class DictionaryTranslatorTests
     {
         [Fact]
-        public void If_it_knows_the_exception_type_It_is_translated_to_empty_error_with_proper_code()
+        public void If_it_knows_the_exception_type_It_is_translated_to_proper_result()
         {
             var res = new Translator().TryTranslate(new Exception1());
 
             Assert.NotNull(res);
             Assert.Equal(string.Empty, res!.PropertyName);
-            Assert.Equal(string.Empty, res!.ErrorMessage);
+            Assert.Equal("Message", res!.ErrorMessage);
             Assert.Equal(1, res!.ErrorCode);
         }
 
@@ -35,8 +35,8 @@ namespace LeanCode.CQRS.Validation.Tests
 
         private class Translator : DictionaryTranslator<AppContext, ICommand>
         {
-            protected override ImmutableDictionary<Type, int> Translations { get; } = new Builder()
-                .Translate<Exception1>(1)
+            protected override ImmutableDictionary<Type, ErrorItem> Translations { get; } = new Builder()
+                .Translate<Exception1>("Message", 1)
                 .Build();
         }
 
