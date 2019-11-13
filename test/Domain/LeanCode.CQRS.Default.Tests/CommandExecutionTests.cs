@@ -59,12 +59,9 @@ namespace LeanCode.CQRS.Default.Tests
         }
 
         [Fact]
-        public async Task Default_pipeline_runs_exception_translation_on_commands()
+        public async Task Default_pipeline_DOES_NOT_run_exception_translation_on_commands()
         {
-            var res = await RunAsync(new Command { FailTranslation = true });
-
-            var err = Assert.Single(res.ValidationErrors);
-            Assert.Equal(2, err.ErrorCode);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(() => RunAsync(new Command { FailTranslation = true }));
         }
 
         [Fact]
