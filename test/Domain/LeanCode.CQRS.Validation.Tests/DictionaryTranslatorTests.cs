@@ -33,7 +33,7 @@ namespace LeanCode.CQRS.Validation.Tests
             Assert.Null(res);
         }
 
-        private class Translator : DictionaryTranslator
+        private class Translator : DictionaryTranslator<AppContext, ICommand>
         {
             protected override ImmutableDictionary<Type, int> Translations { get; } = new Builder()
                 .Translate<Exception1>(1)

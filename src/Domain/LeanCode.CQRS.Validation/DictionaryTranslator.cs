@@ -3,7 +3,9 @@ using System.Collections.Immutable;
 
 namespace LeanCode.CQRS.Validation
 {
-    public abstract class DictionaryTranslator : ICommandExceptionTranslator<object, ICommand>
+    public abstract class DictionaryTranslator<TAppContext, TCommand> : ICommandExceptionTranslator<TAppContext, TCommand>
+        where TAppContext : notnull
+        where TCommand : ICommand
     {
         protected abstract ImmutableDictionary<Type, int> Translations { get; }
 
